@@ -23,27 +23,20 @@ const pusher = new Pusher({
 
 // Middleware
 // Middleware
+
 app.use(express.json());
 
-// Custom CORS configuration
+// Allow CORS with all origins or specific domains
 app.use(
   cors({
-    origin: "*", // Replace "*" with specific domains if needed
+    origin: "*", // Replace "*" with the domain of your frontend if you want stricter control
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Alternatively, handle CORS manually
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+// Optional: Handle preflight requests (for complex CORS requests)
+app.options("*", cors());
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-control-Allow-Orign", "*");
